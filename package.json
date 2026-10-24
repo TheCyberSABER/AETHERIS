@@ -1,0 +1,19 @@
+{
+  "name": "intelligent-pm-platform",
+  "version": "1.0.0",
+  "description": "Intelligent Project Management and Team Contribution Analysis Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "project-management",
+    "ai-dashboard",
+    "contribution-analysis",
+    "rbac",
+    "kanban"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

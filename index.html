@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHERIS // Intelligent Project Management &amp; Team Contribution Analysis Platform</title>
+  <meta name="description" content="AI-powered dashboard to manage projects, assign tasks, track deadlines, monitor progress, and fairly analyze team contributions with explainable scoring.">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/aperios.css">
+  <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+
+  <!-- Ambient Light Backdrops -->
+  <div class="ambient-glow ambient-cyan"></div>
+  <div class="ambient-glow ambient-violet"></div>
+  <div class="grid-bg-overlay"></div>
+
+  <!-- Shutter Flash Overlay for Mechanical Shutter Click Effect -->
+  <div class="shutter-flash-overlay" id="shutter-flash-overlay"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- ======================================================================
+       SCREEN 1: INTRODUCTION & LANDING PAGE (APERIOS DESIGN INSPIRED)
+       ====================================================================== -->
+  <div id="landing-view">
+    <!-- Landing Navigation Header -->
+    <header class="landing-header">
+      <div class="brand-wrapper">
+        <div class="brand-symbol">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text-group">
+          <span class="brand-name">AETHERIS <span style="color: var(--accent-cyan); font-weight: 400;">// 01</span></span>
+          <span class="brand-tag">INTELLIGENT PM &amp; CONTRIBUTION RADAR</span>
+        </div>
+      </div>
+
+      <!-- Live Indian Clock Pill (IST) -->
+      <div class="header-status-pill">
+        <span class="live-indicator">
+          <span class="pulse-dot emerald"></span>
+          <span class="live-time-display">NEW DELHI 05:15:00 IST</span>
+        </span>
+        <span style="color: var(--border-medium);">|</span>
+        <span style="color: var(--text-muted);">ALL PLATFORM NODES ONLINE</span>
+      </div>
+
+      <div class="landing-nav-actions">
+        <a href="#features-anchor" class="nav-link-subtle">[01] CAPABILITIES</a>
+        <a href="#scoring-anchor" class="nav-link-subtle">[02] FAIR SCORING</a>
+        <a href="#workflow-anchor" class="nav-link-subtle">[03] WORKFLOWS</a>
+
+        <!-- Camera Shutter Light/Dark Mode Clicker Button -->
+        <button class="shutter-toggle-btn" id="theme-shutter-btn" onclick="triggerShutterThemeToggle()" title="Camera Shutter: Click to switch Light / Dark Mode">
+          <div class="shutter-iris-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="m14.31 8 5.74 9.94"></path>
+              <path d="M9.69 8h11.48"></path>
+              <path d="m7.38 12 5.74-9.94"></path>
+              <path d="M9.69 16 3.95 6.06"></path>
+              <path d="M14.31 16H2.83"></path>
+              <path d="m16.62 12-5.74 9.94"></path>
+            </svg>
+          </div>
+          <span class="shutter-label" id="shutter-theme-label">DARK MODE</span>
+          <span class="shutter-pill-indicator"></span>
+        </button>
+
+        <!-- "Sign In As" Dropdown Replacing "Launch Portal" -->
+        <div class="auth-dropdown-wrapper" id="auth-dropdown-wrapper">
+          <button class="auth-dropdown-trigger" id="auth-dropdown-btn" onclick="toggleAuthDropdown(event)">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+              <polyline points="10 17 15 12 10 7"></polyline>
+              <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            <span>SIGN IN AS ▾</span>
+          </button>
+
+          <div class="auth-dropdown-menu" id="auth-dropdown-menu">
+            <div class="auth-dropdown-header">
+              <span class="auth-dropdown-label">INSTANT ROLE ACCESS</span>
+              <span class="auth-dropdown-badge">IST AUDITED</span>
+            </div>
+            
+            <div class="auth-dropdown-list">
+              <!-- Admin -->
+              <button class="auth-dropdown-item" onclick="quickLogin('admin'); closeAuthDropdown();">
+                <div class="auth-item-icon role-admin">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="auth-item-info">
+                  <div class="auth-item-title">Log in as Admin</div>
+                  <div class="auth-item-desc">Ketan Verma • Platform Governance &amp; RBAC</div>
+                </div>
+                <span class="auth-item-arrow">→</span>
+              </button>
+
+              <!-- Project Manager -->
+              <button class="auth-dropdown-item" onclick="quickLogin('pm'); closeAuthDropdown();">
+                <div class="auth-item-icon role-pm">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                </div>
+                <div class="auth-item-info">
+                  <div class="auth-item-title">Log in as Project Manager</div>
+                  <div class="auth-item-desc">Karan • Sprint Planning &amp; Task Allocation</div>
+                </div>
+                <span class="auth-item-arrow">→</span>
+              </button>
+
+              <!-- Team Member / User Employee -->
+              <button class="auth-dropdown-item" onclick="quickLogin('member'); closeAuthDropdown();">
+                <div class="auth-item-icon role-member">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="auth-item-info">
+                  <div class="auth-item-title">Log in as User / Employee</div>
+                  <div class="auth-item-desc">Arjun / Aditya / Jeet • Submissions &amp; Git Proofs</div>
+                </div>
+                <span class="auth-item-arrow">→</span>
+              </button>
+
+              <!-- Faculty / Evaluator -->
+              <button class="auth-dropdown-item" onclick="quickLogin('faculty'); closeAuthDropdown();">
+                <div class="auth-item-icon role-faculty">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <div class="auth-item-info">
+                  <div class="auth-item-title">Log in as Faculty / Evaluator</div>
+                  <div class="auth-item-desc">Prof. Ketan Kumar • Capstone Review &amp; Rubric</div>
+                </div>
+                <span class="auth-item-arrow">→</span>
+              </button>
+            </div>
+
+            <div class="auth-dropdown-footer">
+              <button class="auth-dropdown-custom-btn" onclick="openAuthModal(); closeAuthDropdown();">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>Custom Email Login or Register Credentials →</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-meta-pill">
+        <span class="pulse-dot cyan"></span>
+        <span>INDIAN TIMEZONE (IST) • AUTONOMOUS WORKFLOW &amp; FAIR ATTRIBUTION</span>
+      </div>
+
+      <h1 class="hero-headline">
+        ENGINEERED FOR RADICAL <span class="highlight-gradient">TEAM TRANSPARENCY</span> &amp; FAIR CONTRIBUTION.
+      </h1>
+
+      <p class="hero-subhead">
+        Eliminate subjective bias and commit-count spam. Manage complex initiatives with an autonomous AI assistant, verifiable deliverable proofs, and multi-dimensional contribution radar scoring.
+      </p>
+
+      <div class="hero-cta-group">
+        <button class="btn-aperios-magnetic" onclick="openAuthModal()">
+          AUTHENTICATE CREDENTIALS [01] →
+        </button>
+        <button class="btn-aperios-outline" onclick="quickLogin('pm')">
+          ONE-CLICK PM ACCESS (KARAN) ↗
+        </button>
+      </div>
+
+      <!-- Fast Judge / Evaluator Preset Switcher (Indian Names) -->
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-medium); border-radius: var(--radius-pill); padding: 8px 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center;">
+        <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Direct Hackathon Demo Portals:</span>
+        <button class="btn btn-outline btn-sm btn-pill" onclick="quickLogin('admin')">👑 Admin (Ketan Verma)</button>
+        <button class="btn btn-cyan btn-sm btn-pill" onclick="quickLogin('pm')">🎯 Project Lead (Karan)</button>
+        <button class="btn btn-outline btn-sm btn-pill" onclick="quickLogin('member')">⚡ Team Member (Arjun)</button>
+        <button class="btn btn-outline btn-sm btn-pill" onclick="quickLogin('faculty')">🎓 Faculty (Prof. Ketan Kumar)</button>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         2ND PAGE: APERIOS-STYLE CONTINUOUS DYNAMIC AD BROADCAST BILLBOARD
+         Continuously changing advertising showcase rotating through:
+         1. Achievements & Milestones (Cobalt Blue + Peach)
+         2. How It Works (4-Gate Cryptographic Pipeline in Forest Green + Mint)
+         3. Why Choose Our Platform (Anti-Free-Riding & Meritocracy in Safety Orange)
+         4. What You Will Get (Immediate Deliverables in Periwinkle Purple)
+         5. Our Speciality & Competitive Advantage (Sub-14ms AI & IST in Cyber Yellow)
+         ====================================================================== -->
+    <section class="continuous-ad-section" id="continuous-ad-anchor">
+      <!-- Section Control Header -->
+      <div class="ad-control-header">
+        <div class="ad-broadcaster-tag">
+          <span class="pulse-bullet"></span>
+          <span>[02] / CONTINUOUS BROADCAST • LIVE PLATFORM ADVERTISING</span>
+        </div>
+        <div class="ad-cycle-controls">
+          <button class="ad-pause-play-btn" id="ad-speed-btn" onclick="toggleAdSpeed()" title="Cycle Speed: 2 Photos per Second" style="border-right: 1px solid rgba(0,0,0,0.12); font-weight: 700; color: #ff4000;">
+            <span id="ad-speed-icon">⚡</span>
+            <span id="ad-speed-text">2 PHOTOS/SEC (500MS)</span>
+          </button>
+          <button class="ad-pause-play-btn" id="ad-play-pause-btn" onclick="toggleAdCycle()">
+            <span id="ad-play-pause-icon">⏸</span>
+            <span id="ad-play-pause-text">PAUSE</span>
+          </button>
+          <button class="ad-nav-btn" onclick="prevAdSlide()" title="Previous Ad Slide">←</button>
+          <button class="ad-nav-btn" onclick="nextAdSlide()" title="Next Ad Slide">→</button>
+        </div>
+      </div>
+
+      <!-- 5 Interactive Tab Pills with Real-Time Progress Bars -->
+      <div class="ad-tab-bar">
+        <div class="ad-tab-pill active" id="ad-tab-0" onclick="goToAdSlide(0)">
+          <span class="ad-tab-step">01 // ACHIEVEMENTS</span>
+          <span class="ad-tab-title">Milestones &amp; Proofs</span>
+          <div class="ad-progress-bar-track"><div class="ad-progress-bar-fill" id="ad-progress-0"></div></div>
+        </div>
+        <div class="ad-tab-pill" id="ad-tab-1" onclick="goToAdSlide(1)">
+          <span class="ad-tab-step">02 // HOW IT WORKS</span>
+          <span class="ad-tab-title">4-Gate Pipeline</span>
+          <div class="ad-progress-bar-track"><div class="ad-progress-bar-fill" id="ad-progress-1"></div></div>
+        </div>
+        <div class="ad-tab-pill" id="ad-tab-2" onclick="goToAdSlide(2)">
+          <span class="ad-tab-step">03 // WHY CHOOSE US</span>
+          <span class="ad-tab-title">True Meritocracy</span>
+          <div class="ad-progress-bar-track"><div class="ad-progress-bar-fill" id="ad-progress-2"></div></div>
+        </div>
+        <div class="ad-tab-pill" id="ad-tab-3" onclick="goToAdSlide(3)">
+          <span class="ad-tab-step">04 // WHAT YOU GET</span>
+          <span class="ad-tab-title">Turnkey Value Pack</span>
+          <div class="ad-progress-bar-track"><div class="ad-progress-bar-fill" id="ad-progress-3"></div></div>
+        </div>
+        <div class="ad-tab-pill" id="ad-tab-4" onclick="goToAdSlide(4)">
+          <span class="ad-tab-step">05 // OUR SPECIALITY</span>
+          <span class="ad-tab-title">Sub-14ms AI &amp; IST</span>
+          <div class="ad-progress-bar-track"><div class="ad-progress-bar-fill" id="ad-progress-4"></div></div>
+        </div>
+      </div>
+
+      <!-- The Continuously Changing Dynamic Billboard Card -->
+      <div class="ad-billboard-card ad-theme-blue" id="ad-billboard-container">
+        <!-- Rendered dynamically by renderAdSlide -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SELECTED WORKINGS & PLATFORM DELIVERABLES SHOWCASE
+         Exact match to the vibrant cobalt blue rounded card in user reference
+         with multiple working picture views, pop-up scale animation, and specs
+         ====================================================================== -->
+    <section class="workings-showcase-section" id="workings-anchor">
+      <div class="editorial-section-header" style="margin-bottom: 24px;">
+        <div>
+          <div class="section-index">[03] / SELECTED WORKINGS &amp; PLATFORM DELIVERABLES</div>
+          <h2 class="section-headline">Verified Project Workings</h2>
+        </div>
+        <div class="section-caption">
+          Scroll or toggle below to inspect live team contribution radar models, Kanban evidence gates, and sprint velocity burndown charts.
+        </div>
+      </div>
+
+      <!-- Tab Bar for Switching Project Workings -->
+      <div class="workings-tab-bar">
+        <button class="workings-tab-btn active" id="wtab-core" onclick="switchWorkingCard('core')">
+          <span>01/</span> Aetheris Platform Core (Cobalt Blue)
+        </button>
+        <button class="workings-tab-btn" id="wtab-radar" onclick="switchWorkingCard('radar')">
+          <span>02/</span> Synapse Radar Engine
+        </button>
+        <button class="workings-tab-btn" id="wtab-kanban" onclick="switchWorkingCard('kanban')">
+          <span>03/</span> Evidence Kanban Board
+        </button>
+        <button class="workings-tab-btn" id="wtab-ai" onclick="switchWorkingCard('ai')">
+          <span>04/</span> AI Diagnostics Hub
+        </button>
+      </div>
+
+      <!-- Main Big Rounded Pop-Up Card (Exact match to the 'weav' vibrant blue card in reference) -->
+      <div class="working-popup-card theme-cobalt-blue pop-in" id="active-working-card">
+        <!-- Rendered dynamically by switchWorkingCard -->
+      </div>
+    </section>
+
+    <!-- Aperios Infinite Marquee Ticker -->
+    <div class="marquee-container">
+      <div class="marquee-content">
+        <div class="marquee-item"><span class="item-bullet"></span>VERIFIABLE DELIVERABLE PROOFS</div>
+        <div class="marquee-item"><span class="item-bullet"></span>ANTI-FREE-RIDING PROTOCOL</div>
+        <div class="marquee-item"><span class="item-bullet"></span>EXPLAINABLE CONTRIBUTION RADAR</div>
+        <div class="marquee-item"><span class="item-bullet"></span>AUTONOMOUS SPRINT RISK DIAGNOSTICS</div>
+        <div class="marquee-item"><span class="item-bullet"></span>ZERO SUBJECTIVE BIAS</div>
+        <div class="marquee-item"><span class="item-bullet"></span>ROLE-BASED GOVERNANCE (RBAC)</div>
+        <div class="marquee-item"><span class="item-bullet"></span>KANBAN WORKFLOW AUTOMATION</div>
+        <div class="marquee-item"><span class="item-bullet"></span>INDIAN STANDARD TIME (IST) GOVERNANCE</div>
+        <!-- Duplicated for loop -->
+        <div class="marquee-item"><span class="item-bullet"></span>VERIFIABLE DELIVERABLE PROOFS</div>
+        <div class="marquee-item"><span class="item-bullet"></span>ANTI-FREE-RIDING PROTOCOL</div>
+        <div class="marquee-item"><span class="item-bullet"></span>EXPLAINABLE CONTRIBUTION RADAR</div>
+        <div class="marquee-item"><span class="item-bullet"></span>AUTONOMOUS SPRINT RISK DIAGNOSTICS</div>
+      </div>
+    </div>
+
+    <!-- Editorial Showcase Grid -->
+    <section id="features-anchor" style="max-width: 1280px; margin: 0 auto; width: 100%; padding: 0 48px;">
+      <div class="editorial-section-header">
+        <div>
+          <div class="section-index">[01] / ARCHITECTURE &amp; CAPABILITIES</div>
+          <h2 class="section-headline">Four Connected Pillars of Platform Integrity</h2>
+        </div>
+        <div class="section-caption">
+          Engineered for engineering teams (Karan, Arjun, Aditya, Jeet, Ketan Kumar, Ketan Verma, Ishan) with explainable multi-axis attribution.
+        </div>
+      </div>
+    </section>
+
+    <div class="showcase-grid">
+      <!-- Card 1 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-card-header">
+            <span class="card-num">01/</span>
+            <div class="card-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </div>
+          </div>
+          <h3>Explainable Contribution Radar</h3>
+          <p>
+            No more relying on raw commit counts or chat volume. Evaluates completed tasks, verified Git deliverable proofs, task complexity weighting, peer review collaboration, and milestone discipline.
+          </p>
+        </div>
+        <div class="showcase-preview-widget">
+          <code>FORMULA: (0.40×Deliverables) + (0.25×Complexity) + (0.20×Collab) + (0.15×Deadlines)</code>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-card-header">
+            <span class="card-num">02/</span>
+            <div class="card-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg>
+            </div>
+          </div>
+          <h3>Autonomous AI Diagnostics</h3>
+          <p>
+            The Aetheris Core engine scans sprint queues for review bottlenecks, flags workload skews (Gini coefficient), and detects lowest performers like Ishan (42.5%) for targeted remediation.
+          </p>
+        </div>
+        <div class="showcase-preview-widget">
+          <code style="color: var(--accent-rose);">AI ALERT: Ishan flagged as lowest performer (42.5%) → Remediation Ready</code>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-card-header">
+            <span class="card-num">03/</span>
+            <div class="card-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+          </div>
+          <h3>Deliverable Evidence Workflow</h3>
+          <p>
+            Contributors submit tasks accompanied by reproducible artifacts, commit hashes, and test suite logs. Managers and evaluators review diffs and grant verified merit credits.
+          </p>
+        </div>
+        <div class="showcase-preview-widget">
+          <code style="color: var(--accent-emerald);">VERIFIED: git:7b8d11ca • 48/48 HIL Tests Passed • Full Credits Granted</code>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="showcase-card">
+        <div>
+          <div class="showcase-card-header">
+            <span class="card-num">04/</span>
+            <div class="card-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+          </div>
+          <h3>4-Role Enterprise RBAC</h3>
+          <p>
+            Admin (Ketan Verma), Project Lead (Karan), Engineers (Arjun, Aditya, Jeet, Ishan), and Faculty (Prof. Ketan Kumar) operate in tailored security realms with cryptographic audit logging.
+          </p>
+        </div>
+        <div class="showcase-preview-widget">
+          <code style="color: var(--accent-violet);">GOVERNANCE: 12 Permission Gates • Strict Role Isolation Active</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Process Workflow Timeline Section -->
+    <section id="workflow-anchor" style="max-width: 1280px; margin: 0 auto 80px; width: 100%; padding: 0 48px;">
+      <div class="editorial-section-header">
+        <div>
+          <div class="section-index">[02] / WORKFLOW PROTOCOL</div>
+          <h2 class="section-headline">How the Platform Guarantees Fair Attribution</h2>
+        </div>
+        <div class="section-caption">
+          A closed-loop governance cycle from sprint planning to faculty capstone certification.
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px;">
+          <div class="font-mono" style="color: var(--accent-cyan); font-size: 0.8rem; margin-bottom: 8px;">STEP 01</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 8px;">Dispatch &amp; Weight</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">Project Lead (Karan) creates tasks with explicit complexity multipliers (1.0x to 5.0x) and target criteria.</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px;">
+          <div class="font-mono" style="color: var(--accent-cyan); font-size: 0.8rem; margin-bottom: 8px;">STEP 02</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 8px;">Execute &amp; Attach Proof</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">Arjun, Aditya, and Jeet progress work across Kanban lanes and upload code diffs, logs, and live artifact links.</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px;">
+          <div class="font-mono" style="color: var(--accent-cyan); font-size: 0.8rem; margin-bottom: 8px;">STEP 03</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 8px;">Verify &amp; Credit Attribution</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">Karan approves submissions, automatically updating multi-axis radar scores and anti-free-riding indexes.</p>
+        </div>
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 24px;">
+          <div class="font-mono" style="color: var(--accent-cyan); font-size: 0.8rem; margin-bottom: 8px;">STEP 04</div>
+          <h4 style="font-size: 1.15rem; margin-bottom: 8px;">Grade &amp; Export Audit</h4>
+          <p style="font-size: 0.85rem; color: var(--text-secondary);">Prof. Ketan Kumar completes interactive defense rubrics and exports official cryptographic PDF reports.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid var(--border-subtle); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; width: 100%; flex-wrap: wrap; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span class="brand-name" style="font-size: 1rem;">AETHERIS</span>
+        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">© 2026 APERIOS-INSPIRED PROTOCOL • NEW DELHI, INDIA</span>
+      </div>
+      <div style="display: flex; gap: 20px;">
+        <button class="btn btn-outline btn-sm" onclick="quickLogin('admin')">ADMIN ACCESS (KETAN VERMA)</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuthModal()">AUTHENTICATE CREDENTIALS →</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ======================================================================
+       APP PORTAL (THE 8 CONNECTED SCREENS)
+       ====================================================================== -->
+  <div id="app-view" style="display: none;">
+    <!-- Topbar -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Collapse / Expand Sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+
+        <div class="brand-wrapper" onclick="store.setActiveView('dashboard')" style="cursor: pointer;">
+          <div class="brand-symbol" style="width: 30px; height: 30px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <span class="brand-name" style="font-size: 1.1rem;">AETHERIS</span>
+        </div>
+
+        <div class="project-select-wrapper">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-cyan);"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
+          <select id="topbar-project-select"></select>
+        </div>
+      </div>
+
+      <div class="topbar-center">
+        <div class="search-bar-wrapper">
+          <svg class="search-icon-inline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="topbar-search-input" placeholder="Search tasks, deliverables, or audits..." />
+          <span class="search-shortcut-badge">⌘K</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <!-- Shutter Click Theme Toggle in App Topbar -->
+        <button class="shutter-toggle-btn shutter-sm" id="topbar-shutter-btn" onclick="triggerShutterThemeToggle()" title="Camera Shutter: Click to switch Light / Dark Mode">
+          <div class="shutter-iris-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="m14.31 8 5.74 9.94"></path>
+              <path d="M9.69 8h11.48"></path>
+              <path d="m7.38 12 5.74-9.94"></path>
+              <path d="M9.69 16 3.95 6.06"></path>
+              <path d="M14.31 16H2.83"></path>
+              <path d="m16.62 12-5.74 9.94"></path>
+            </svg>
+          </div>
+          <span class="shutter-label">DARK MODE</span>
+        </button>
+
+        <!-- Notification Bell -->
+        <div class="notif-bell-wrapper">
+          <button class="notif-bell-btn" id="topbar-notif-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="notif-badge-count" id="topbar-notif-count">2</span>
+          </button>
+          
+          <div class="notif-dropdown" id="topbar-notif-dropdown">
+            <div class="notif-header">
+              <span>Platform Notifications (IST)</span>
+              <span class="badge badge-neutral" style="font-size: 0.65rem;">LIVE</span>
+            </div>
+            <div class="notif-list" id="topbar-notif-list"></div>
+          </div>
+        </div>
+
+        <!-- User Profile Pill with Strict RBAC Logout Button -->
+        <div class="user-profile-badge" title="Active Authenticated Session">
+          <div class="user-avatar" id="topbar-user-avatar">KA</div>
+          <div class="user-info-text">
+            <span class="user-name" id="topbar-user-name">Karan</span>
+            <span class="user-role-tag" id="topbar-user-role">Project Manager</span>
+          </div>
+          <button class="logout-pill-btn" onclick="store.logout()" title="Log out from platform to switch role">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Workspace Body -->
+    <div class="app-workspace">
+      <!-- Collapsible Sidebar -->
+      <aside class="app-sidebar">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-header">CORE WORKSPACE</div>
+          <a class="sidebar-nav-link active" data-view="dashboard">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+            <span class="nav-link-text">Role Dashboard</span>
+          </a>
+          <a class="sidebar-nav-link" data-view="kanban">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></span>
+            <span class="nav-link-text">Kanban &amp; Tasks</span>
+          </a>
+          <a class="sidebar-nav-link" data-view="analytics">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg></span>
+            <span class="nav-link-text">Contribution Radar</span>
+          </a>
+          <a class="sidebar-nav-link" data-view="submissions">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+            <span class="nav-link-text">Submission Queue</span>
+            <span class="nav-badge-pill" id="sidebar-submissions-badge">2</span>
+          </a>
+
+          <div class="sidebar-nav-header" style="margin-top: 14px;">INTELLIGENCE &amp; GOVERNANCE</div>
+          <a class="sidebar-nav-link" data-view="ai-insights">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg></span>
+            <span class="nav-link-text">AI Risk Diagnostics</span>
+            <span class="nav-badge-pill" id="sidebar-risks-badge" style="color: var(--accent-rose);">4</span>
+          </a>
+          <a class="sidebar-nav-link" data-view="rbac">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+            <span class="nav-link-text">RBAC &amp; Permissions</span>
+          </a>
+          <a class="sidebar-nav-link" data-view="reports">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+            <span class="nav-link-text">Faculty Evaluation</span>
+          </a>
+          <a class="sidebar-nav-link" data-view="audit-logs">
+            <span class="nav-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+            <span class="nav-link-text">Cryptographic Audit</span>
+          </a>
+        </div>
+
+        <!-- Sidebar Footer Telemetry Card -->
+        <div class="sidebar-footer-card">
+          <div class="telemetry-row">
+            <span>REGION</span>
+            <span style="color: var(--accent-emerald);">● ASIA-SOUTH1 (IST)</span>
+          </div>
+          <div class="telemetry-row">
+            <span>INFERENCE LATENCY</span>
+            <span style="color: var(--accent-cyan);">14 ms</span>
+          </div>
+          <div class="telemetry-row">
+            <span>VERSION</span>
+            <span>v2.4-ai</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Workspace Container -->
+      <main class="app-main-content">
+        <div id="main-content-view">
+          <!-- Dynamically injected by js/app.js -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       INTERACTIVE MODALS
+       ====================================================================== -->
+
+  <!-- 1. Authentication & Role Selection Modal (Indian Team Personas) -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-cyan);"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Authenticate Platform Access (IST)</span>
+        </div>
+        <button class="modal-close" onclick="closeAllModals()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="demo-preset-banner">
+          <div>
+            <strong>Hackathon Judging Presets:</strong> Click any role below for instant demo credentials &amp; tailored dashboard view.
+          </div>
+        </div>
+
+        <!-- 4 Role Select Cards (Indian Team) -->
+        <div class="role-picker-grid">
+          <div class="role-select-card" id="role-card-admin" onclick="selectLoginRole('admin')">
+            <div class="role-card-top">
+              <span class="badge badge-violet">ADMIN</span>
+              <div class="role-card-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-violet);">👑</div>
+            </div>
+            <div class="role-card-name">Ketan Verma</div>
+            <div class="role-card-persona">Chief System Architect &amp; Admin</div>
+            <div class="role-card-scope">Full RBAC • User Provisioning • Audit</div>
+          </div>
+
+          <div class="role-select-card selected" id="role-card-pm" onclick="selectLoginRole('pm')">
+            <div class="role-card-top">
+              <span class="badge badge-cyan">PROJECT LEAD</span>
+              <div class="role-card-icon" style="background: rgba(0, 242, 255, 0.15); color: var(--accent-cyan);">🎯</div>
+            </div>
+            <div class="role-card-name">Karan</div>
+            <div class="role-card-persona">Lead Project Manager &amp; Agile Coach</div>
+            <div class="role-card-scope">Sprints • Task Dispatch • Approvals</div>
+          </div>
+
+          <div class="role-select-card" id="role-card-member" onclick="selectLoginRole('member')">
+            <div class="role-card-top">
+              <span class="badge badge-emerald">EMPLOYEE</span>
+              <div class="role-card-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);">⚡</div>
+            </div>
+            <div class="role-card-name">Arjun</div>
+            <div class="role-card-persona">Senior Algorithm Engineer</div>
+            <div class="role-card-scope">Task Execution • Deliverable Proofs</div>
+          </div>
+
+          <div class="role-select-card" id="role-card-faculty" onclick="selectLoginRole('faculty')">
+            <div class="role-card-top">
+              <span class="badge badge-amber">FACULTY</span>
+              <div class="role-card-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--accent-amber);">🎓</div>
+            </div>
+            <div class="role-card-name">Prof. Ketan Kumar</div>
+            <div class="role-card-persona">Academic Capstone Director</div>
+            <div class="role-card-scope">Cohort Grading • Rubric Sign-off</div>
+          </div>
+        </div>
+
+        <!-- Simulated Credentials Form -->
+        <form id="auth-login-form" onsubmit="handleFormLogin(event)">
+          <input type="hidden" id="login-role-hidden" value="pm" />
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label">Authorized Account Email</label>
+            <input type="email" id="login-email-input" value="karan@aetheris.ai" required />
+          </div>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label class="form-label">Security Passkey</label>
+            <input type="password" value="••••••••••••••••" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Verify Credentials &amp; Launch Portal →
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Create Task Modal -->
+  <div class="modal-overlay" id="create-task-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-cyan);"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Dispatch New Project Task</span>
+        </div>
+        <button class="modal-close" onclick="closeAllModals()">&times;</button>
+      </div>
+
+      <form id="create-task-form">
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Task Title</label>
+            <input type="text" id="task-title-input" placeholder="e.g. Implement WebSocket Engine for Real-Time Task Sync" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Technical Specification &amp; Deliverable Requirement</label>
+            <textarea id="task-desc-input" rows="3" placeholder="Define expected technical criteria, proof formats, and unit test requirements..." required></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Assignee</label>
+              <select id="task-assignee-input">
+                <option value="usr-01">Arjun (Senior Algorithm Eng)</option>
+                <option value="usr-02">Karan (Project Lead)</option>
+                <option value="usr-03">Aditya (Firmware Lead)</option>
+                <option value="usr-04">Jeet (DevOps Eng)</option>
+                <option value="usr-07">Ishan (Junior Contributor - Lowest)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Priority Level</label>
+              <select id="task-priority-input">
+                <option value="critical">Critical</option>
+                <option value="high" selected>High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Complexity Weight (1.0x to 5.0x)</label>
+              <input type="number" id="task-weight-input" min="1.0" max="5.0" step="0.5" value="3.5" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Due Date (IST)</label>
+              <input type="date" id="task-due-input" value="2026-11-12" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeAllModals()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Dispatch to Kanban →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Create Project Modal -->
+  <div class="modal-overlay" id="create-project-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-cyan);"><polygon points="12 2 2 7 12 12 22 7 12 2"/></svg>
+          <span>Register New Engineering Project</span>
+        </div>
+        <button class="modal-close" onclick="closeAllModals()">&times;</button>
+      </div>
+
+      <form id="create-project-form">
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label">Project Name</label>
+            <input type="text" id="proj-name-input" placeholder="e.g. Project Quantum-Secure Telemetry" required />
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label class="form-label">Project Code</label>
+              <input type="text" id="proj-code-input" placeholder="e.g. QUANTUM-SEC" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Complexity Points Budget</label>
+              <input type="number" id="proj-complexity-input" value="35.0" step="1.0" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Architectural Overview</label>
+            <textarea id="proj-desc-input" rows="3" placeholder="Outline mission objectives and deliverable milestones..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Target Milestone Delivery Date</label>
+            <input type="date" id="proj-deadline-input" value="2026-12-20" required />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeAllModals()">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Initialize Project →</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Invite User Modal -->
+  <div class="modal-overlay" id="invite-user-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>Provision New Platform User</span>
+        </div>
+        <button class="modal-close" onclick="closeAllModals()">&times;</button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="invite-name" placeholder="e.g. Rahul Sharma" value="Rahul Sharma" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="invite-email" placeholder="rahul.sharma@aetheris.ai" value="rahul.sharma@aetheris.ai" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Assigned RBAC Role</label>
+          <select id="invite-role">
+            <option value="member">Team Member (Employee)</option>
+            <option value="pm">Project Manager / Lead</option>
+            <option value="faculty">Faculty Evaluator</option>
+            <option value="admin">Administrator</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeAllModals()">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="handleInviteUser()">Grant Credentials &amp; Invite</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Cryptographic PDF Audit Report Modal -->
+  <div class="modal-overlay" id="report-modal">
+    <div class="modal-card" style="max-width: 780px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span style="color: var(--accent-cyan);">Official Cryptographic Audit Certificate</span>
+        </div>
+        <button class="modal-close" onclick="closeAllModals()">&times;</button>
+      </div>
+      <div class="modal-body" id="report-modal-content">
+        <!-- Injected dynamically by js/app.js -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline btn-sm" onclick="closeAllModals()">Close</button>
+        <button class="btn btn-primary btn-sm" onclick="window.print()">Print / Save as PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Working Picture Fullscreen Inspection Lightbox Modal (Aperios Style) -->
+  <div class="lightbox-modal" id="working-lightbox-modal">
+    <div class="lightbox-content-box">
+      <button class="lightbox-close-btn" onclick="closeWorkingLightbox()" title="Close">&times;</button>
+      <div class="lightbox-image-wrapper">
+        <img id="lightbox-img" src="assets/platform_core_working.jpg" alt="Working Picture Inspection" />
+      </div>
+      <div class="lightbox-caption-bar">
+        <div>
+          <h3 id="lightbox-title" style="font-size: 1.25rem; font-family: var(--font-display);">AETHERIS // PLATFORM CORE &amp; TEAM CONTRIBUTION RADAR</h3>
+          <p id="lightbox-desc" style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">Real-time multi-engineer contribution radar, burndown metrics, and Kanban evidence verification in IST.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-outline btn-sm" onclick="closeWorkingLightbox()">Back to Showcase</button>
+          <button class="btn btn-primary btn-sm" onclick="closeWorkingLightbox(); quickLogin('pm');">
+            Enter Live Portal (Karan) →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Inline Helpers for Modal triggers and Quick Login
+    function openAuthModal() {
+      document.getElementById('auth-modal').classList.add('active');
+    }
+
+    function selectLoginRole(roleId) {
+      document.querySelectorAll('.role-select-card').forEach(c => c.classList.remove('selected'));
+      const card = document.getElementById(`role-card-${roleId}`);
+      if (card) card.classList.add('selected');
+
+      const hiddenInput = document.getElementById('login-role-hidden');
+      const emailInput = document.getElementById('login-email-input');
+      if (hiddenInput) hiddenInput.value = roleId;
+
+      const roleData = INITIAL_DATA.roles[roleId];
+      if (emailInput && roleData) emailInput.value = roleData.email;
+    }
+    // Working Showcase Dataset (Exact 4 Project Workings)
+    // Working Showcase Dataset (Exact 4 Project Workings)
+    let currentWorkingKey = 'core';
+    let currentMainPic = null;
+    let currentMainCaption = null;
+
+    const WORKINGS_DATA = {
+      core: {
+        id: '01 / 04',
+        name: 'AETHERIS-CORE',
+        tag: 'INTELLIGENT PM & FAIR CONTRIBUTION PLATFORM',
+        theme: 'theme-cobalt-blue', // Exact match to 'weav' vibrant blue card in reference screenshot!
+        emblem: `
+          <svg width="44" height="30" viewBox="0 0 48 32" fill="none" style="filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));">
+            <path d="M4 6 C8 1, 14 11, 18 6 C22 1, 28 11, 32 6 C36 1, 42 11, 46 6" stroke="#ffd9cf" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M4 16 C8 11, 14 21, 18 16 C22 11, 28 21, 32 16 C36 11, 42 21, 46 16" stroke="#ffd9cf" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M4 26 C8 21, 14 31, 18 26 C22 21, 28 31, 32 26 C36 21, 42 31, 46 26" stroke="#ffd9cf" stroke-width="4.5" stroke-linecap="round"/>
+          </svg>
+        `,
+        headline: '<span style="font-weight: 800; font-family: var(--font-display); letter-spacing: -0.04em;">weav</span> <span style="font-size: 1.45rem; opacity: 0.65; font-weight: 500; font-family: var(--font-mono); margin-left: 10px;">/ AETHERIS-CORE</span>',
+        subtitle: 'AI-Powered Project Governance & Multi-Axis Team Contribution Analysis Platform. Multi-role access, fair performance attribution, and automated sprint risk balancing.',
+        mainImage: 'assets/platform_core_working.jpg',
+        mainCaption: 'Synergy Analytics Dashboard • Team Contribution Radar (Karan, Arjun, Aditya, Jeet, Ketan, Ishan) • Kanban Boards • Velocity Burndown',
+        subPics: [
+          {
+            img: 'assets/platform_core_working.jpg',
+            title: 'Synergy Analytics & Contribution Radar',
+            desc: 'Multi-engineer radar comparing Karan, Arjun, Aditya, Jeet, Ketan, and Ishan (42.5%)'
+          },
+          {
+            img: 'assets/radar_working.jpg',
+            title: 'Spider Web Attribution Engine',
+            desc: 'Tracks commit quality, complexity, peer reviews & deadline compliance'
+          },
+          {
+            img: 'assets/kanban_working.jpg',
+            title: 'Verified Evidence Kanban Pipeline',
+            desc: 'Strict status transitions requiring commit SHAs, logs, and test passes'
+          }
+        ],
+        specs: [
+          { label: 'Lead Engineers', value: 'Arjun & Karan' },
+          { label: 'Sprint Complexity', value: '38.0 Pts (Sprint 4)' },
+          { label: 'Verified PRs', value: '18 Commits Merged' },
+          { label: 'Evaluation Status', value: 'Grade A (92.0% Certified)' }
+        ]
+      },
+      radar: {
+        id: '02 / 04',
+        name: 'SYNAPSE-RADAR',
+        tag: 'MULTI-DIMENSIONAL FAIR ATTRIBUTION ENGINE',
+        theme: 'theme-electric-violet',
+        emblem: `
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m4.93 4.93 4.24 4.24"></path>
+            <path d="m14.83 9.17 4.24-4.24"></path>
+            <path d="m14.83 14.83 4.24 4.24"></path>
+            <path d="m9.17 14.83-4.24 4.24"></path>
+          </svg>
+        `,
+        headline: 'SYNAPSE-RADAR',
+        subtitle: 'Explainable Contribution Radar separating real architectural feats from commit-count spam, featuring automated anomaly detection for Ishan\'s lowest performance.',
+        mainImage: 'assets/radar_working.jpg',
+        mainCaption: 'Holographic Spider Radar Matrix • Multi-Axis Member Comparison • Anti-Free-Riding Shield',
+        subPics: [
+          {
+            img: 'assets/radar_working.jpg',
+            title: 'Spider Web Attribution',
+            desc: '4-Axis balance tracking deliverables, complexity, collab, deadlines'
+          },
+          {
+            img: 'assets/ai_diagnostics_working.jpg',
+            title: 'Ishan Deficit Flag (42.5%)',
+            desc: 'Lowest performance detected and flagged for capstone remediation'
+          },
+          {
+            img: 'assets/kanban_working.jpg',
+            title: 'Cryptographic Proof Chain',
+            desc: 'SHA-256 state chain anchoring each engineer\'s credit'
+          }
+        ],
+        specs: [
+          { label: 'Senior Evaluator', value: 'Prof. Ketan Kumar' },
+          { label: 'Attribution Formula', value: '40% Deliv + 25% Compl + 20% Collab' },
+          { label: 'Top Performer', value: 'Arjun (94.8% Exemplary)' },
+          { label: 'Lowest Performer', value: 'Ishan (42.5% Flagged)' }
+        ]
+      },
+      kanban: {
+        id: '03 / 04',
+        name: 'KANBAN-CORE',
+        tag: 'CRYPTOGRAPHIC EVIDENCE DISPATCH PIPELINE',
+        theme: 'theme-emerald-cyan',
+        emblem: `
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+            <line x1="15" y1="3" x2="15" y2="21"></line>
+          </svg>
+        `,
+        headline: 'KANBAN-CORE',
+        subtitle: 'Strict Task Progression Board requiring verified code diff previews, benchmark logs, and passing test suites before status transition to Completed.',
+        mainImage: 'assets/kanban_working.jpg',
+        mainCaption: 'Drag-and-Drop Task Lanes • Inline Git Commit Diffs • 350/350 Passing Unit Tests',
+        subPics: [
+          {
+            img: 'assets/kanban_working.jpg',
+            title: 'Code Diff Verification',
+            desc: 'Inline git delta viewer with SHA-256 commit hashes'
+          },
+          {
+            img: 'assets/platform_core_working.jpg',
+            title: '350 Unit Tests & Burndown',
+            desc: 'Automated CI runners and sprint burndown tracking passing 100%'
+          },
+          {
+            img: 'assets/radar_working.jpg',
+            title: '1-Click Approval Queue',
+            desc: 'Instant credit attribution upon Karan\'s verification'
+          }
+        ],
+        specs: [
+          { label: 'Sprint Dispatcher', value: 'Karan (Project Lead)' },
+          { label: 'Workflow Lanes', value: 'To Do → In Progress → Review → Done' },
+          { label: 'Active Engineers', value: 'Arjun, Aditya, Jeet, Ishan' },
+          { label: 'Pass Rate', value: '100% CI/CD Verified' }
+        ]
+      },
+      ai: {
+        id: '04 / 04',
+        name: 'AETHERIS-AI',
+        tag: 'AUTONOMOUS SPRINT DIAGNOSTICS & REBALANCING',
+        theme: 'theme-cyber-amber',
+        emblem: `
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5">
+            <path d="M12 2v20"></path>
+            <path d="m17 5-5-3-5 3"></path>
+            <path d="m17 19-5 3-5-3"></path>
+            <path d="M2 12h20"></path>
+            <path d="m5 7-3 5 3 5"></path>
+            <path d="m19 7 3 5-3 5"></path>
+          </svg>
+        `,
+        headline: 'AETHERIS-AI',
+        subtitle: 'Continuous Telemetry Scanner predicting review bottlenecks, workload imbalances (Gini 0.72), and executing 1-click autonomous task rebalancing.',
+        mainImage: 'assets/ai_diagnostics_working.jpg',
+        mainCaption: 'Neural Network Status • Gini Workload Balance Curve • Real-Time Bottleneck Warning',
+        subPics: [
+          {
+            img: 'assets/ai_diagnostics_working.jpg',
+            title: 'Global Neural Status',
+            desc: 'Sub-14ms telemetry inference latency across platform tasks & services'
+          },
+          {
+            img: 'assets/platform_core_working.jpg',
+            title: 'Bottleneck Predictor',
+            desc: 'Review queue backlog mitigation plan generated in 12ms'
+          },
+          {
+            img: 'assets/radar_working.jpg',
+            title: 'Workload Gini Curve',
+            desc: 'Autonomous 4.0 complexity points rebalancing execution'
+          }
+        ],
+        specs: [
+          { label: 'Chief Architect', value: 'Ketan Verma (Admin)' },
+          { label: 'Model Version', value: 'Aetheris Synapse v2.4' },
+          { label: 'Normalized Gini', value: '0.38 (Optimal Balance)' },
+          { label: 'Inference Latency', value: '14 ms' }
+        ]
+      }
+    };
+
+    // Render Working Showcase Card
+    function renderWorkingCard(key, activeSubIdx = 0) {
+      currentWorkingKey = key;
+      const cardContainer = document.getElementById('active-working-card');
+      const data = WORKINGS_DATA[key];
+      if (!cardContainer || !data) return;
+
+      const activePic = data.subPics[activeSubIdx] || { img: data.mainImage, desc: data.mainCaption, title: data.name };
+      currentMainPic = activePic.img;
+      currentMainCaption = activePic.desc;
+
+      // Update Card Theme with forced reflow for animation trigger
+      cardContainer.className = `working-popup-card ${data.theme}`;
+      void cardContainer.offsetWidth; // Trigger DOM reflow to cleanly restart the Aperios scale pop-in animation
+      cardContainer.classList.add('pop-in');
+
+      cardContainer.innerHTML = `
+        <!-- Top Bar -->
+        <div class="working-card-top-strip">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-weight: 800;">${data.id}</span>
+            <span style="opacity: 0.5;">//</span>
+            <span>${data.tag}</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span>NEW DELHI (IST)</span>
+            <span>● 2026</span>
+          </div>
+        </div>
+
+        <!-- Title Area -->
+        <div class="working-card-title-area">
+          <div>
+            <div class="working-brand-emblem">
+              <div class="working-brand-logo-icon">
+                ${data.emblem}
+              </div>
+              <h2 class="working-brand-headline">${data.headline}</h2>
+            </div>
+            <p class="working-subtitle">${data.subtitle}</p>
+          </div>
+          <div>
+            <button class="btn btn-primary" onclick="quickLogin('pm')" style="box-shadow: 0 10px 25px rgba(0,0,0,0.4);">
+              Explore Project in Portal →
+            </button>
+          </div>
+        </div>
+
+        <!-- Multiple Pics Area -->
+        <div class="working-visuals-container">
+          <!-- Big Main Picture Frame (Click opens Fullscreen Lightbox) -->
+          <div class="working-main-image-frame" id="working-main-frame" onclick="openWorkingLightbox('${currentMainPic}', '${data.name} // WORKING PREVIEW', '${currentMainCaption}')">
+            <img id="main-working-img" src="${currentMainPic}" alt="${data.name} Working Screenshot" />
+            <div class="working-hover-inspect-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+              <span>INSPECT FULLSCREEN LIGHTBOX [↗]</span>
+            </div>
+          </div>
+
+          <!-- Secondary Working Pics Strip with interactive click switcher -->
+          <div class="working-sub-pics-grid">
+            ${data.subPics.map((sub, idx) => `
+              <div class="working-sub-pic-card ${idx === activeSubIdx ? 'active-sub-pic' : ''}" onclick="selectWorkingSubPic('${key}', ${idx})">
+                <div class="sub-pic-thumb">
+                  <img src="${sub.img}" alt="${sub.title}" />
+                </div>
+                <div class="sub-pic-info">
+                  <h5>${sub.title}</h5>
+                  <p>${sub.desc}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Footer Specs Strip -->
+        <div class="working-card-specs-bar">
+          <div class="specs-item-group">
+            ${data.specs.map(s => `
+              <div class="spec-item">
+                <span class="spec-label">${s.label}</span>
+                <span class="spec-value">${s.value}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div>
+            <span class="badge badge-neutral" style="background: rgba(255,255,255,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.3); font-weight: 600;">
+              CLICK ANY PIC TO SWITCH OR POP UP LIGHTBOX
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    // Select specific sub-picture
+    function selectWorkingSubPic(key, idx) {
+      renderWorkingCard(key, idx);
+    }
+
+    // Switch active working card
+    function switchWorkingCard(key) {
+      document.querySelectorAll('.workings-tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`wtab-${key}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      renderWorkingCard(key, 0);
+    }
+
+    // Lightbox Controls
+    function openWorkingLightbox(imgSrc, title, desc) {
+      const modal = document.getElementById('working-lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const t = document.getElementById('lightbox-title');
+      const d = document.getElementById('lightbox-desc');
+      if (!modal || !img) return;
+
+      img.src = imgSrc;
+      if (t) t.textContent = title;
+      if (d) d.textContent = desc;
+
+      modal.classList.add('active');
+    }
+
+    function closeWorkingLightbox() {
+      const modal = document.getElementById('working-lightbox-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Close lightbox on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeWorkingLightbox();
+    });
+
+    // Scroll trigger for popup pop-in animation
+    function initWorkingsScrollObserver() {
+      const card = document.getElementById('active-working-card');
+      if (!card || !('IntersectionObserver' in window)) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            card.classList.add('pop-in');
+          }
+        });
+      }, { threshold: 0.15 });
+
+      observer.observe(card);
+    }
+
+    // ==========================================================================
+    // CONTINUOUSLY CHANGING AD BILLBOARD DATA (APERIOS EXACT PALETTES)
+    // 5 Categories: Achievements, How It Works, Why Choose Us, What You Get, Speciality
+    // ==========================================================================
+    const AD_SLIDES_DATA = [
+      {
+        theme: 'ad-theme-blue',
+        step: '01 / 05',
+        category: 'VERIFIED ACHIEVEMENTS & MILESTONES',
+        headline: '99.8% Platform Health • 38.0 Pts Delivered • Zero Free-Riders',
+        desc: 'Sprint 4 shipped with 100% CI/CD pass rate under Prof. Ketan Kumar\'s rigorous academic oversight. Lead engineers Karan, Arjun, Aditya, and Jeet established zero subjective bias, while Ishan\'s performance was transparently isolated.',
+        metrics: [
+          { val: '100%', label: 'Automated CI/CD Pass Rate (350/350 Tests)' },
+          { val: '38.0', label: 'Verified Complexity Points Shipped' },
+          { val: '0.00%', label: 'Tolerated Free-Riding (Cryptographic Shield)' },
+          { val: '42.5%', label: 'Lowest Score Flagged (Ishan Remediation)' }
+        ],
+        ctaText: 'Explore Verified Milestones in Portal →',
+        ctaAction: "quickLogin('pm')"
+      },
+      {
+        theme: 'ad-theme-green',
+        step: '02 / 05',
+        category: 'HOW IT WORKS // DEEP EXECUTION PIPELINE',
+        headline: 'From Raw Git Pull Request to Immutable Contribution in 4 Automated Gates',
+        desc: 'No more subjective guesswork or biased team grading. Aetheris ingests real GitHub pull requests, benchmarks runtime latency, and anchors proof onto an SHA-256 state chain.',
+        stepper: [
+          { num: 'GATE 01', title: 'Task Allocation', desc: 'Karan (PM) assigns calibrated complexity points.' },
+          { num: 'GATE 02', title: 'Cryptographic Upload', desc: 'Arjun & team submit code diffs with SHA-256 hashes.' },
+          { num: 'GATE 03', title: 'Synapse AI Telemetry', desc: 'Sub-14ms scanner checks Gini balance and review delays.' },
+          { num: 'GATE 04', title: 'Faculty Certification', desc: 'Prof. Ketan Kumar locks rubric-verified final scores.' }
+        ],
+        ctaText: 'Test Live Kanban Progression →',
+        ctaAction: "quickLogin('member')"
+      },
+      {
+        theme: 'ad-theme-orange',
+        step: '03 / 05',
+        category: 'WHY CHOOSE OUR PLATFORM // TRUE MERITOCRACY',
+        headline: 'Why Settle for Fake Commits? Choose Real, Mathematical Meritocracy.',
+        desc: 'Traditional tools like Jira and GitHub reward commit counts and copy-pasted lines of code—rewarding spam over substance. Aetheris isolates architectural contributions with zero room for slacking.',
+        comparison: {
+          legacy: [
+            'Raw lines of code reward copy-paste spamming',
+            'Free-riders hide safely in group project submissions',
+            'Subjective lead reviews cause friction and disputes',
+            'Zero verification of whether submitted code actually runs'
+          ],
+          aetheris: [
+            'Formula: (0.40×Deliv) + (0.25×Complexity) + (0.20×Collab) + (0.15×Deadlines)',
+            'Immediate quarantine & coaching for lowest performers (Ishan 42.5%)',
+            'Gini index workload alerts prevent engineer burnout in real-time',
+            'Every score is backed by passing test logs and immutable git diffs'
+          ]
+        },
+        ctaText: 'Inspect Explainable Radar Formula →',
+        ctaAction: "quickLogin('faculty')"
+      },
+      {
+        theme: 'ad-theme-purple',
+        step: '04 / 05',
+        category: 'WHAT YOU WILL GET // TURNKEY VALUE',
+        headline: 'Everything Needed to Run, Grade, and Certify Elite Engineering Teams',
+        desc: 'A complete enterprise-grade platform engineered for universities, research consortia, and mission-critical engineering organizations.',
+        features: [
+          { title: 'Interactive Radar Chart', desc: '4-axis dynamic SVG spider web overlay with multi-engineer comparison.' },
+          { title: '1-Click AI Rebalance', desc: 'Autonomous sprint risk scanner that redistributes backlog in 1 click.' },
+          { title: 'Strict RBAC Governance', desc: 'Role isolation across Admin, PM, Member, and Faculty with audit trails.' },
+          { title: 'Official Signed PDF Reports', desc: 'Cryptographically certified graduation and project reports in IST.' }
+        ],
+        ctaText: 'Generate Official Faculty PDF Report →',
+        ctaAction: "quickLogin('faculty')"
+      },
+      {
+        theme: 'ad-theme-yellow',
+        step: '05 / 05',
+        category: 'OUR SPECIALITY & COMPETITIVE EDGE',
+        headline: 'Sub-14ms AI Diagnostics & Precision Indian Standard Time (IST) Engine',
+        desc: 'While legacy project management tools rely on static spreadsheets and delayed retrospectives, Aetheris operates in true real-time with sub-14ms neural telemetry and precision IST clock synchronization.',
+        specialties: [
+          { title: 'Sub-14ms Neural Inference', desc: 'Instantaneous telemetry scan across 124 distributed sprint tasks, PR diffs & microservice nodes.' },
+          { title: 'Indian Standard Time (IST)', desc: 'All audit blocks, sprint timers, and proofs locked to NEW DELHI (IST).' },
+          { title: 'Anti-Free-Riding Protocol', desc: 'Automatically isolates low contributors (Ishan at 42.5%) for targeted remediation.' },
+          { title: 'SHA-256 Cryptographic Chain', desc: 'Every deliverable, approval, and permission change is cryptographically sealed.' }
+        ],
+        ctaText: 'Launch Platform with 1-Click Role Login →',
+        ctaAction: "openAuthModal()"
+      }
+    ];
+
+    let currentAdIndex = 0;
+    let isAdPaused = false;
+    let adTimerInterval = null;
+    let adProgress = 0;
+    let currentAdDuration = 500; // 500ms = 2 photos per second as requested!
+    const AD_TICK_MS = 25;
+
+    function renderAdSlide(idx) {
+      const container = document.getElementById('ad-billboard-container');
+      const slide = AD_SLIDES_DATA[idx];
+      if (!container || !slide) return;
+
+      container.className = `ad-billboard-card ${slide.theme} pop-in`;
+      void container.offsetWidth; // Force reflow for spring animation
+
+      let bodyContent = '';
+
+      if (slide.metrics) {
+        bodyContent = `
+          <div class="ad-metrics-row">
+            ${slide.metrics.map(m => `
+              <div class="ad-metric-tile">
+                <div class="ad-metric-val">${m.val}</div>
+                <div class="ad-metric-label">${m.label}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (slide.stepper) {
+        bodyContent = `
+          <div class="ad-stepper-grid">
+            ${slide.stepper.map(s => `
+              <div class="ad-stepper-card">
+                <span class="ad-stepper-num">${s.num}</span>
+                <div class="ad-stepper-title">${s.title}</div>
+                <div class="ad-stepper-desc">${s.desc}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (slide.comparison) {
+        bodyContent = `
+          <div class="ad-comparison-grid">
+            <div class="ad-comparison-card">
+              <div class="ad-comparison-header" style="color: #fca5a5;">
+                <span>❌</span> Traditional Tools (Jira / GitHub)
+              </div>
+              <ul class="ad-comparison-list">
+                ${slide.comparison.legacy.map(item => `
+                  <li>• ${item}</li>
+                `).join('')}
+              </ul>
+            </div>
+            <div class="ad-comparison-card highlight">
+              <div class="ad-comparison-header" style="color: #ffffff;">
+                <span>✅</span> AETHERIS Platform Advantage
+              </div>
+              <ul class="ad-comparison-list">
+                ${slide.comparison.aetheris.map(item => `
+                  <li><strong>✔</strong> ${item}</li>
+                `).join('')}
+              </ul>
+            </div>
+          </div>
+        `;
+      } else if (slide.features) {
+        bodyContent = `
+          <div class="ad-features-quad">
+            ${slide.features.map(f => `
+              <div class="ad-feature-box">
+                <h4>${f.title}</h4>
+                <p>${f.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } else if (slide.specialties) {
+        bodyContent = `
+          <div class="ad-specialty-quad">
+            ${slide.specialties.map(sp => `
+              <div class="ad-specialty-box">
+                <h4>${sp.title}</h4>
+                <p>${sp.desc}</p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="ad-billboard-inner">
+          <div class="ad-billboard-content-body">
+            <div class="ad-billboard-top">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-weight: 800;">${slide.step}</span>
+                <span style="opacity: 0.6;">//</span>
+                <span>${slide.category}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <span>NEW DELHI (IST)</span>
+                <span>● CONTINUOUS BROADCAST</span>
+              </div>
+            </div>
+
+            <h2 class="ad-billboard-headline">${slide.headline}</h2>
+            <p class="ad-billboard-desc">${slide.desc}</p>
+
+            <div class="ad-body-content-wrap">
+              ${bodyContent}
+            </div>
+          </div>
+
+          <div class="ad-billboard-footer">
+            <div>
+              <button class="ad-btn-action" onclick="${slide.ctaAction}">
+                <span>${slide.ctaText}</span>
+              </button>
+            </div>
+
+            <div class="ad-slide-indicator-pills">
+              ${AD_SLIDES_DATA.map((_, i) => `
+                <div class="ad-dot ${i === idx ? 'active' : ''}" onclick="goToAdSlide(${i})"></div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function startAdCycle() {
+      clearInterval(adTimerInterval);
+      adProgress = 0;
+      adTimerInterval = setInterval(() => {
+        if (isAdPaused) return;
+        adProgress += (AD_TICK_MS / currentAdDuration) * 100;
+        const activeProgressFill = document.getElementById(`ad-progress-${currentAdIndex}`);
+        if (activeProgressFill) {
+          activeProgressFill.style.width = `${Math.min(adProgress, 100)}%`;
+        }
+        if (adProgress >= 100) {
+          nextAdSlide();
+        }
+      }, AD_TICK_MS);
+    }
+
+    function toggleAdSpeed() {
+      const textEl = document.getElementById('ad-speed-text');
+      if (currentAdDuration === 500) {
+        currentAdDuration = 1000;
+        if (textEl) textEl.textContent = '1 PHOTO/SEC (1000MS)';
+      } else if (currentAdDuration === 1000) {
+        currentAdDuration = 2500;
+        if (textEl) textEl.textContent = 'STANDARD (2.5S)';
+      } else {
+        currentAdDuration = 500;
+        if (textEl) textEl.textContent = '2 PHOTOS/SEC (500MS)';
+      }
+      startAdCycle();
+    }
+
+    function nextAdSlide() {
+      goToAdSlide((currentAdIndex + 1) % AD_SLIDES_DATA.length);
+    }
+
+    function prevAdSlide() {
+      goToAdSlide((currentAdIndex - 1 + AD_SLIDES_DATA.length) % AD_SLIDES_DATA.length);
+    }
+
+    function goToAdSlide(idx) {
+      for (let i = 0; i < AD_SLIDES_DATA.length; i++) {
+        const f = document.getElementById(`ad-progress-${i}`);
+        if (f) f.style.width = '0%';
+        const tab = document.getElementById(`ad-tab-${i}`);
+        if (tab) tab.classList.remove('active');
+      }
+      currentAdIndex = idx;
+      adProgress = 0;
+      const activeTab = document.getElementById(`ad-tab-${idx}`);
+      if (activeTab) activeTab.classList.add('active');
+      renderAdSlide(idx);
+    }
+
+    function toggleAdCycle() {
+      isAdPaused = !isAdPaused;
+      const btn = document.getElementById('ad-play-pause-btn');
+      const icon = document.getElementById('ad-play-pause-icon');
+      const text = document.getElementById('ad-play-pause-text');
+      if (btn && icon && text) {
+        if (isAdPaused) {
+          icon.textContent = '▶';
+          text.textContent = 'RESUME';
+          btn.style.background = '#000000';
+          btn.style.color = '#ffffff';
+        } else {
+          icon.textContent = '⏸';
+          text.textContent = 'PAUSE';
+          btn.style.background = '#f9f4eb';
+          btn.style.color = '#000000';
+        }
+      }
+    }
+
+    function initAdScrollObserver() {
+      const section = document.getElementById('continuous-ad-anchor');
+      if (!section || !('IntersectionObserver' in window)) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && isAdPaused) {
+            // Keep active when in view
+          }
+        });
+      }, { threshold: 0.1 });
+
+      observer.observe(section);
+    }
+
+    // =========================================================================
+    // THEME CONTROLLER & SHUTTER CLICK LOGIC
+    // =========================================================================
+    let currentTheme = localStorage.getItem('aetheris_theme') || 'light';
+
+    function initTheme() {
+      applyTheme(currentTheme, false);
+    }
+
+    function applyTheme(theme, animate = true) {
+      currentTheme = theme;
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('aetheris_theme', theme);
+
+      // Update button labels across all shutter buttons on page
+      const shutterBtns = document.querySelectorAll('.shutter-toggle-btn');
+      shutterBtns.forEach(btn => {
+        const label = btn.querySelector('.shutter-label');
+        if (label) {
+          label.textContent = theme === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
+        }
+      });
+    }
+
+    function playShutterSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+
+        // Stage 1: Metallic shutter blade snap
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.type = 'triangle';
+        osc1.frequency.setValueAtTime(1400, ctx.currentTime);
+        osc1.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + 0.038);
+        gain1.gain.setValueAtTime(0.35, ctx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.start(ctx.currentTime);
+        osc1.stop(ctx.currentTime + 0.045);
+
+        // Stage 2: Mechanical latch click release
+        setTimeout(() => {
+          try {
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(650, ctx.currentTime);
+            osc2.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + 0.055);
+            gain2.gain.setValueAtTime(0.25, ctx.currentTime);
+            gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+            osc2.connect(gain2);
+            gain2.connect(ctx.destination);
+            osc2.start(ctx.currentTime);
+            osc2.stop(ctx.currentTime + 0.065);
+          } catch(e) {}
+        }, 35);
+      } catch(e) {}
+    }
+
+    function triggerShutterThemeToggle() {
+      // 1. Play tactile mechanical camera shutter audio
+      playShutterSound();
+
+      // 2. Trigger visual shutter recoil on buttons
+      const shutterBtns = document.querySelectorAll('.shutter-toggle-btn');
+      shutterBtns.forEach(btn => {
+        btn.classList.add('clicked');
+        setTimeout(() => btn.classList.remove('clicked'), 350);
+      });
+
+      // 3. Trigger Camera Flash / Iris wipe overlay
+      const overlay = document.getElementById('shutter-flash-overlay');
+      if (overlay) {
+        overlay.classList.add('flashing');
+        setTimeout(() => overlay.classList.remove('flashing'), 140);
+      }
+
+      // 4. Toggle the theme
+      const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme, true);
+    }
+
+    // =========================================================================
+    // "SIGN IN AS ▾" DROPDOWN LOGIC
+    // =========================================================================
+    function toggleAuthDropdown(e) {
+      if (e) e.stopPropagation();
+      const wrapper = document.getElementById('auth-dropdown-wrapper');
+      if (wrapper) {
+        wrapper.classList.toggle('open');
+      }
+    }
+
+    function closeAuthDropdown() {
+      const wrapper = document.getElementById('auth-dropdown-wrapper');
+      if (wrapper) {
+        wrapper.classList.remove('open');
+      }
+    }
+
+    // Close dropdown on click outside or Escape
+    window.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('auth-dropdown-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        wrapper.classList.remove('open');
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAuthDropdown();
+      }
+    });
+
+    // Initial render of default working card & ad cycle
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      renderAdSlide(0);
+      startAdCycle();
+      renderWorkingCard('core');
+      initWorkingsScrollObserver();
+      initAdScrollObserver();
+    });
+
+    // Inline Helpers for Modal triggers and Quick Login
+    function openAuthModal() {
+      document.getElementById('auth-modal').classList.add('active');
+    }
+
+    function selectLoginRole(roleId) {
+      document.querySelectorAll('.role-select-card').forEach(c => c.classList.remove('selected'));
+      const card = document.getElementById(`role-card-${roleId}`);
+      if (card) card.classList.add('selected');
+
+      const hiddenInput = document.getElementById('login-role-hidden');
+      const emailInput = document.getElementById('login-email-input');
+      if (hiddenInput) hiddenInput.value = roleId;
+
+      const roleData = INITIAL_DATA.roles[roleId];
+      if (emailInput && roleData) emailInput.value = roleData.email;
+    }
+
+    function handleFormLogin(e) {
+      e.preventDefault();
+      const roleId = document.getElementById('login-role-hidden').value;
+      store.login(roleId);
+      closeAllModals();
+    }
+
+    function quickLogin(roleId) {
+      store.login(roleId);
+    }
+
+    function handleInviteUser() {
+      const name = document.getElementById('invite-name').value;
+      const email = document.getElementById('invite-email').value;
+      const role = document.getElementById('invite-role').value;
+
+      store.state.members.push({
+        id: 'usr-0' + (store.state.members.length + 1),
+        name: name,
+        email: email,
+        role: role,
+        roleTitle: 'Systems Engineer',
+        avatar: name.split(' ').map(n=>n[0]).join(''),
+        activeProjectId: 'PRJ-01',
+        score: 80.0,
+        verifiedDeliverables: 0,
+        pendingDeliverables: 0,
+        complexityPoints: 0,
+        collaborationRate: 75,
+        onTimeDeliveryRate: 85,
+        status: 'Invited'
+      });
+
+      store.addAuditLog('USER_INVITED', `Invited ${name} (${email}) as ${role.toUpperCase()}`);
+      store.showToast('User Provisioned', `Credentials dispatched to ${email}`, 'success');
+      store.saveState();
+      closeAllModals();
+    }
+  </script>
+</body>
+</html>
+
